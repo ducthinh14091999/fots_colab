@@ -1,0 +1,58 @@
+{
+    "name": "pretrain",
+    "cuda": true,
+    "gpus": [0],
+    "precision": 32,
+    "backbone_weights": "F:/FOTS.PyTorch/vision-main",
+    "pretrain": "epoch=38-step=935.ckpt",
+    "data_loader": {
+        "dataset":"ICDAR-15",
+        "data_dir": "F:/FOTS.PyTorch/datasets",
+        "batch_size":1,
+        "shuffle": true,
+        "workers": 1,
+        "max_transcripts_pre_batch": 96,
+        "size": 640,
+        "scale": 0.25
+    },
+    "validation": {
+
+        "scales": [800, 1000, 1333]
+    },
+    "lr_scheduler": {
+        "name": "StepLR",
+        "args":
+        {
+            "gamma": 0.1,
+            "step_size": 5,
+            "verbose": true
+        }
+
+    },
+ 
+    "optimizer_type": "AdamW",
+    "optimizer": {
+        "lr": 0.0001
+    },
+    "loss": "FOTSLoss",
+    "metrics": ["fots_metric"],
+    "trainer": {
+        "epochs": 500,
+        "save_dir": "saved/",
+        "save_freq": 1,
+        "verbosity": 2,
+        "monitor": "hmean",
+        "monitor_mode": "max",
+        "log_every_n_steps": 10,
+        "log_gpu_memory": "all",
+        "overfit_batches": 0.0,
+        "terminate_on_nan": false,
+        "fast_dev_run": false,
+        "check_val_every_n_epoch": 1
+    },
+    "arch": "FOTSModel",
+    "model": {
+        "mode": "united"
+    },
+    "Transfrom": false
+}
